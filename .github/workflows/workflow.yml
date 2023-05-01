@@ -21,7 +21,7 @@ jobs:
       - name: Check for changed directory in the last commit
         id: check
         run: |
-          echo git log --stat -1 --oneline
+          git log --stat -1 --oneline
           echo $(git log --stat -1 --oneline) > log.txt
           if grep -q "test.js" log.txt; then
           echo "::set-output name=testChanged::1"
