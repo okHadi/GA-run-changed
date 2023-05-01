@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Check for changed directory in the last commit
@@ -23,15 +23,18 @@ jobs:
         run: |
           echo $(git log --stat -1 --oneline) > log.txt
           if grep -q "Dir1" log.txt; then
-            { echo "DIR1=true" ; } >> $GITHUB_ENV
-          if grep -q "Dir2" log.txt; then
-            { echo "DIR2=true" ; } >> $GITHUB_ENV
-          if grep -q "Dir3" log.txt; then
-            { echo "DIR3=true" ; } >> $GITHUB_ENV
-          if grep -q "Dir4" log.txt; then
-            { echo "DIR4=true" ; } >> $GITHUB_ENV
+            echo "DIR1=true" >> $GITHUB_ENV
           fi
-      - name: Echo all the enviroment variables to test
+          if grep -q "Dir2" log.txt; then
+            echo "DIR2=true" >> $GITHUB_ENV
+          fi
+          if grep -q "Dir3" log.txt; then
+            echo "DIR3=true" >> $GITHUB_ENV
+          fi
+          if grep -q "Dir4" log.txt; then
+            echo "DIR4=true" >> $GITHUB_ENV
+          fi
+      - name: Echo all the environment variables to test
         run: |
           echo $DIR1
           echo $DIR2
