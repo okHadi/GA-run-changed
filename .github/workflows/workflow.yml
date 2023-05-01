@@ -1,0 +1,30 @@
+name: Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DIR1: false
+  DIR2: false
+  DIR3: false
+  DIR4: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check for changed directory in the last commit
+        id: check
+        run: |
+          echo git log --stat -1 --oneline
+          echo $(git log --stat -1 --oneline) > log.txt
+          if grep -q "test.js" log.txt; then
+          echo "::set-output name=testChanged::1"
+          else
+          echo "::set-output name=testChanged::0"
+          fi
